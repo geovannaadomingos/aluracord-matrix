@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import appConfig from '../config.json'
 
 export default function HomePage() {
-  const [username, setUserName] = React.useState("geovannaadomingos")
+  const [username, setUserName] = React.useState("")
   const routing = useRouter()
 
   return (
@@ -38,7 +38,11 @@ export default function HomePage() {
             as="form"
             onSubmit={(event) => {
               event.preventDefault()
-              routing.push("/chat")
+              if(username){
+                routing.push("/chat")
+              }else{
+                alert("Parece que você não inseriu o usuário corretamente. Preencha e tente entrar novamente ;)")
+              }
             }}
             styleSheet={{
               display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
