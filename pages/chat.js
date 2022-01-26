@@ -1,4 +1,5 @@
-import { Box, Text, TextField, Image, Button } from '@skynexui/components';
+import { Box, Text, TextField, Image } from '@skynexui/components';
+import Header from '../components/header';
 import React from 'react';
 import appConfig from '../config.json';
 
@@ -44,7 +45,7 @@ export default function ChatPage() {
                     padding: '32px',
                 }}
             >
-                <Header />
+                <Header text="Chat" />
                 <Box
                     styleSheet={{
                         position: 'relative',
@@ -98,24 +99,6 @@ export default function ChatPage() {
                 </Box>
             </Box>
         </Box>
-    )
-}
-
-function Header() {
-    return (
-        <>
-            <Box styleSheet={{ width: '100%', marginBottom: '16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }} >
-                <Text variant='heading5'>
-                    Chat
-                </Text>
-                <Button
-                    variant='tertiary'
-                    colorVariant='neutral'
-                    label='Logout'
-                    href="/"
-                />
-            </Box>
-        </>
     )
 }
 
