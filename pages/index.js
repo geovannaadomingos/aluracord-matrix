@@ -55,7 +55,7 @@ export default function HomePage() {
               value={username}
               onChange={(event) => {
                 let currentValue = event.target.value
-                setUserName(currentValue)
+                setUserName(currentValue.trim())
               }}
               textFieldColors={{
                 neutral: {
@@ -82,7 +82,7 @@ export default function HomePage() {
 
 
           {/* Photo Area */}
-          {username.length > 2 ?
+          {username.length >= 1 ?
             <Box
               styleSheet={{
                 display: 'flex',
