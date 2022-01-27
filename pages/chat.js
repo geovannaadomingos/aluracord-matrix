@@ -1,24 +1,35 @@
-import { Box, Text, TextField, Image } from '@skynexui/components';
+import { Box, Text, TextField, Image, Button } from '@skynexui/components';
 import Header from '../components/header';
 import React from 'react';
 import appConfig from '../config.json';
 
 export default function ChatPage() {
-    const [mensagem, setMensagem] = React.useState('');
-    const [listaDeMensagens, setListaDeMensagens] = React.useState([]);
+    const [message, setMessage] = React.useState('');
+    const [messageList, setMessageList] = React.useState([]);
 
-    function handleNovaMensagem(novaMensagem) {
-        const mensagem = {
-            id: listaDeMensagens.length + 1,
-            de: 'geovannaadomingos',
-            texto: novaMensagem,
+    function handleNewMessage(newMessage) {
+        const message = {
+            id: messageList.length + 1,
+            from: 'geovannaadomingos',
+            text: newMessage,
         };
 
-        setListaDeMensagens([
-            mensagem,
-            ...listaDeMensagens,
+        setMessageList([
+            message,
+            ...messageList,
         ]);
-        setMensagem('');
+        setMessage('');
+    }
+
+    function deleteMessage(messageId) {
+        let filteredMessages = []
+        messageList.map((message) => {
+            if (message.id !== messageId) {
+                message.id = message.id - 1
+                filteredMessages.push(message)
+            }
+        })
+        setMessageList(filteredMessages)
     }
 
     return (
@@ -58,7 +69,7 @@ export default function ChatPage() {
                         padding: '16px',
                     }}
                 >
-                    <MessageList mensagens={listaDeMensagens} />
+                    <MessageList messages={messageList} deleteMessage={deleteMessage}/>
                     <Box
                         as="form"
                         styleSheet={{
@@ -67,18 +78,18 @@ export default function ChatPage() {
                         }}
                     >
                         <TextField
-                            value={mensagem}
+                            value={message}
                             onChange={(event) => {
-                                const valor = event.target.value;
-                                setMensagem(valor);
+                                const value = event.target.value;
+                                setMessage(value);
                             }}
                             onKeyPress={(event) => {
                                 if (event.key === 'Enter') {
                                     event.preventDefault();
-                                    if(mensagem.trim()){
-                                        handleNovaMensagem(mensagem.trim());
-                                    }else{
-                                       alert("Digite alguma coisa para que sua mensagem possa ser enviada ;)") 
+                                    if (message.trim()) {
+                                        handleNewMessage(message.trim());
+                                    } else {
+                                        alert("Digite alguma coisa para que sua mensagem possa ser enviada ;)")
                                     }
                                 }
                             }}
@@ -103,7 +114,7 @@ export default function ChatPage() {
 }
 
 function MessageList(props) {
-    console.log(props);
+
     return (
         <Box
             tag="ul"
@@ -116,10 +127,10 @@ function MessageList(props) {
                 marginBottom: '16px',
             }}
         >
-            {props.mensagens.map((mensagem) => {
+            {props.messages.map((message) => {
                 return (
                     <Text
-                        key={mensagem.id}
+                        key={message.id}
                         tag="li"
                         styleSheet={{
                             borderRadius: '5px',
@@ -146,7 +157,7 @@ function MessageList(props) {
                                 src={`https://github.com/geovannaadomingos.png`}
                             />
                             <Text tag="strong">
-                                {mensagem.de}
+                                {message.from}
                             </Text>
                             <Text
                                 styleSheet={{
@@ -158,8 +169,15 @@ function MessageList(props) {
                             >
                                 {(new Date().toLocaleDateString())}
                             </Text>
+                            <Button
+                                type="button"
+                                variant='tertiary'
+                                colorVariant='neutral'
+                                label='X'
+                                onClick={() => { props.deleteMessage(message.id) }}
+                            />
                         </Box>
-                        {mensagem.texto}
+                        {message.text}
                     </Text>
                 );
             })}
