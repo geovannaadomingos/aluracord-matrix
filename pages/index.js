@@ -39,7 +39,7 @@ export default function HomePage() {
             onSubmit={(event) => {
               event.preventDefault()
               if(username){
-                routing.push("/chat")
+                routing.push(`/chat?username=${username}`)
               }else{
                 alert("Parece que você não inseriu o usuário corretamente. Preencha e tente entrar novamente ;)")
               }
