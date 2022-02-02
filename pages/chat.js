@@ -12,7 +12,7 @@ const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 
 export default function ChatPage() {
     const routing = useRouter()
-    const loggedInUsername  = routing.query.username
+    const loggedInUsername = routing.query.username
     const [message, setMessage] = React.useState('');
     const [messageList, setMessageList] = React.useState([]);
 
@@ -22,7 +22,7 @@ export default function ChatPage() {
             .select('*')
             .order('id', { ascending: false })
             .then((data) => setMessageList(data.data))
-    }, [])
+    }, [messageList])
 
     function handleNewMessage(newMessage) {
         const message = {
